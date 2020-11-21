@@ -1,6 +1,7 @@
 const ruchy = [];
 let poczatekS = 0;
 let poczatekW = 550;
+let doKonca = 5;
 //ustalanie pozycji początkowej
 for (let i = 0; i < document.getElementsByClassName('pilka').length; i++) {
     if (poczatekS >= 550) {
@@ -27,7 +28,11 @@ function start() {
         //szybkość kuli
         let szybkosc = Math.ceil(Math.random() * 30) + 10;
         let szybkoscObrotow = Math.ceil(Math.random() * 6) + 3;
-        kierunekObrotow = "reverse";
+        let losKierunekObrotow = Math.ceil(Math.random() * 2);
+        let kierunekObrotow = "normal";
+        if (losKierunekObrotow == 1) {
+            kierunekObrotow = "reverse";
+        }
         document.getElementsByClassName('pilka')[i].children[0].style.animation = "spin 0." + szybkoscObrotow + "s infinite linear " + kierunekObrotow;
 
         //żeby nie robiły się kwadraty
@@ -41,64 +46,73 @@ function start() {
         // Animacja/odbicia
         function animacja(nr) {
             //Koniec
-            /*if (pozycjaX > 500 && pozycjaY < 50) {
-                alert('BRAWOOOO!');
+            if (pozycjaX > 500 && pozycjaY < 50) {
+                document.getElementsByClassName('pilka')[nr].style.left = "645px";
+                document.getElementsByClassName('pilka')[nr].style.top = 40 + (doKonca - 1) * 100 + "px";
+                document.getElementsByClassName('pilka')[nr].style.transform = "scale(2)";
+                document.getElementsByClassName('pilka')[nr].style.zIndex = "1";
                 clearInterval(ruchy[i]);
-            }*/
-            //Kierunek NE
-            if (kierunekKuli == 1) {
-                if (pozycjaX < 550 && pozycjaY > 0) {
-                    pozycjaX += przesuniecieX;
-                    pozycjaY -= przesuniecieY;
+                doKonca--;
 
-                    document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
-                    document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
-                } else if (pozycjaX >= 550) {
-                    kierunekKuli = 2;
-                } else if (pozycjaY <= 0) {
-                    kierunekKuli = 3;
+                if (doKonca == 0) {
+                    stop();
                 }
-            }
-            //Kierunek NW
-            if (kierunekKuli == 2) {
-                if (pozycjaX > 0 && pozycjaY > 0) {
-                    pozycjaX -= przesuniecieX;
-                    pozycjaY -= przesuniecieY;
+            } else {
+                //Kierunek NE
+                if (kierunekKuli == 1) {
+                    if (pozycjaX < 550 && pozycjaY > 0) {
+                        pozycjaX += przesuniecieX;
+                        pozycjaY -= przesuniecieY;
 
-                    document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
-                    document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
-                } else if (pozycjaX <= 0) {
-                    kierunekKuli = 1;
-                } else if (pozycjaY <= 0) {
-                    kierunekKuli = 4;
+                        document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
+                        document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
+                    } else if (pozycjaX >= 550) {
+                        kierunekKuli = 2;
+                    } else if (pozycjaY <= 0) {
+                        kierunekKuli = 3;
+                    }
                 }
-            }
-            //Kierunek SE
-            if (kierunekKuli == 3) {
-                if (pozycjaX < 550 && pozycjaY < 550) {
-                    pozycjaX += przesuniecieX;
-                    pozycjaY += przesuniecieY;
+                //Kierunek NW
+                if (kierunekKuli == 2) {
+                    if (pozycjaX > 0 && pozycjaY > 0) {
+                        pozycjaX -= przesuniecieX;
+                        pozycjaY -= przesuniecieY;
 
-                    document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
-                    document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
-                } else if (pozycjaX >= 550) {
-                    kierunekKuli = 4;
-                } else if (pozycjaY >= 550) {
-                    kierunekKuli = 1;
+                        document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
+                        document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
+                    } else if (pozycjaX <= 0) {
+                        kierunekKuli = 1;
+                    } else if (pozycjaY <= 0) {
+                        kierunekKuli = 4;
+                    }
                 }
-            }
-            //Kierunek SW
-            if (kierunekKuli == 4) {
-                if (pozycjaX > 0 && pozycjaY < 550) {
-                    pozycjaX -= przesuniecieX;
-                    pozycjaY += przesuniecieY;
+                //Kierunek SE
+                if (kierunekKuli == 3) {
+                    if (pozycjaX < 550 && pozycjaY < 550) {
+                        pozycjaX += przesuniecieX;
+                        pozycjaY += przesuniecieY;
 
-                    document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
-                    document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
-                } else if (pozycjaX <= 0) {
-                    kierunekKuli = 3;
-                } else if (pozycjaY >= 550) {
-                    kierunekKuli = 2;
+                        document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
+                        document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
+                    } else if (pozycjaX >= 550) {
+                        kierunekKuli = 4;
+                    } else if (pozycjaY >= 550) {
+                        kierunekKuli = 1;
+                    }
+                }
+                //Kierunek SW
+                if (kierunekKuli == 4) {
+                    if (pozycjaX > 0 && pozycjaY < 550) {
+                        pozycjaX -= przesuniecieX;
+                        pozycjaY += przesuniecieY;
+
+                        document.getElementsByClassName('pilka')[nr].style.left = pozycjaX + "px";
+                        document.getElementsByClassName('pilka')[nr].style.top = pozycjaY + "px";
+                    } else if (pozycjaX <= 0) {
+                        kierunekKuli = 3;
+                    } else if (pozycjaY >= 550) {
+                        kierunekKuli = 2;
+                    }
                 }
             }
         }
